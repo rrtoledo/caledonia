@@ -250,10 +250,8 @@ impl Proof {
         }
         // Initialising max number of steps
         let mut limit = setup.b;
-        // println!(" ------------------------------- {}", limit);
         // Attempting to generate a proof for $d$ rounds
         for t in 1..(setup.d + 1) {
-            // println!(" -----t{}/{}: {}", t, setup.d + 1, limit);
             if limit == 0 {
                 return (0, None);
             }
@@ -301,7 +299,6 @@ impl Proof {
     /// Alba's verification algorithm, follows proving algorithm by running the
     /// same depth-first search algorithm.
     pub fn verify(setup: &Setup, proof: Proof) -> bool {
-        // println!("Verify: {} {} {}", proof.r, proof.d, proof.items.len());
         if proof.d == 0 || proof.d > setup.d || proof.r > setup.r || proof.items.len() != setup.u {
             return false;
         }
