@@ -35,6 +35,17 @@ fn from_bytes_le(bytes: &[u8]) -> usize {
     usize::from_le_bytes(array)
 }
 
+/// Return a 32-byte hash of the given data
+pub fn hash_bytes(data: &[u8]) -> [u8; 32] {
+    let mut hasher = Blake2bVar::new(32).expect("Failed to construct hasher!");
+    hasher.update(data);
+    let mut buf = [0u8; 32];
+    hasher
+        .finalize_variable(&mut buf)
+        .expect("Failed to finalize hashing");
+    buf
+}
+
 /// Return 32-byte hash of the given list of data
 pub fn combine_hashes(hash_list: Vec<Vec<u8>>) -> [u8; 32] {
     let mut hasher = Blake2bVar::new(32).expect("Failed to construct hasher!");
