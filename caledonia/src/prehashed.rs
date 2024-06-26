@@ -296,24 +296,24 @@ mod tests {
                     let start_prove = Instant::now();
                     let proof = Proof::prove(&setup, &s_p);
                     let end_prove = start_prove.elapsed();
-                    time_prove += end_prove.as_micros();
+                    time_prove += end_prove.as_nanos();
                     // Verify
                     let start_verify = Instant::now();
                     let b = Proof::verify(&setup, proof.clone());
                     let end_verify = start_verify.elapsed();
-                    time_verify += end_verify.as_micros();
+                    time_verify += end_verify.as_nanos();
                     assert!(b);
                 }
 
                 println!(
-                    "(n_p={}, n_f={}, λ={}): \t u={}, \t setup:{}ns, \t prove:{}μs, \t verify:{}μs",
-                    n_p,
-                    n_f,
+                    "(n_p={}, n_f={}, λ={}): \t u={}, \t setup:{}, \t prove:{}, \t verify:{}",
+                    utils::format_nb(n_p),
+                    utils::format_nb(n_f),
                     lambda,
-                    u,
-                    time_setup / nb_tests,
-                    time_prove / nb_tests,
-                    time_verify / nb_tests
+                    utils::format_nb(u),
+                    utils::format_time(time_setup / nb_tests),
+                    utils::format_time(time_prove / nb_tests),
+                    utils::format_time(time_verify / nb_tests)
                 );
             }
         }

@@ -83,6 +83,39 @@ pub fn gen_items(size: usize) -> Vec<[u8; 32]> {
     s_p
 }
 
+pub fn format_time(nanos: u128) -> String {
+    let mut time = nanos;
+    let bounds = [1000, 1000, 1000, 60, 60, 60];
+    let units = ["ns", "μs", "ms", "s", "min", "h"];
+    for (&bound, &unit) in bounds.iter().zip(units.iter()) {
+        if time < bound {
+            return time.to_string() + unit;
+        }
+        time = time / bound;
+    }
+    (time * 60).to_string() + "h"
+}
+
+pub fn format_nb(x: usize) -> String {
+    let mut y = x;
+    let mut s = String::new();
+    let mut b = true;
+    while y / 1000 != 0 {
+        s = if b {
+            (y % 1000).to_string()
+        } else {
+            (y % 1000).to_string() + &("_".to_string() + &s)
+        };
+        b = false;
+        y = y / 1000;
+    }
+    if b {
+        y.to_string()
+    } else {
+        (y % 1000).to_string() + "_" + &s
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
